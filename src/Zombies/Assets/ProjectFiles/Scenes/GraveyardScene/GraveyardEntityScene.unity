@@ -169,6 +169,7 @@ MonoBehaviour:
   NumberTombstonesToSpawn: 250
   TombstonePrefab: {fileID: 14975308294066400, guid: 40686a6c484c6574386f4e9f32d9d9d9,
     type: 3}
+  RandomSeed: 100
 --- !u!1 &1145903875
 GameObject:
   m_ObjectHideFlags: 0

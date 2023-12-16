@@ -30,9 +30,11 @@ namespace Systems
 
             for (var i = 0; i < graveyard.NumberTombstonesToSpawn; i++)
             {
-                ecb.Instantiate(graveyard.TombstonePrefab);
+                var newTombstone = ecb.Instantiate(graveyard.TombstonePrefab);
+                var newTombstoneTransform = graveyard.GetRandomTombstoneTransform();
+                ecb.SetComponent(newTombstone, newTombstoneTransform);
             }
-            
+
             ecb.Playback(state.EntityManager);
         }
     }
