@@ -899,11 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ca43a9e7ea4732834d064358da8a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startRadius: 20
-  _endRadius: 5
-  _startHeight: 2
-  _endHeight: 10
-  _speed: 0.1
 --- !u!43 &406956993
 Mesh:
   m_ObjectHideFlags: 0
@@ -4903,7 +4898,7 @@ Transform:
   m_GameObject: {fileID: 1990967087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.002291441, y: 0.74825215, z: 0.0012123398}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
