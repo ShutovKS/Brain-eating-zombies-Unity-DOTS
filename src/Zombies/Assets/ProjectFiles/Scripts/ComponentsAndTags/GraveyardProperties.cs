@@ -5,7 +5,7 @@ namespace ComponentsAndTags
 {
     public struct GraveyardProperties : IComponentData
     {
-        public float2 FieldDemensions;
+        public float2 FieldDimensions;
         public int NumberTombstonesToSpawn;
         public Entity TombstonePrefab;
         public Entity ZombiePrefab;

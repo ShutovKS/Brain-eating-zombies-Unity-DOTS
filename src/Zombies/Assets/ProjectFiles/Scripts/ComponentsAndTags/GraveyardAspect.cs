@@ -18,10 +18,10 @@ namespace ComponentsAndTags
         private readonly RefRW<GraveyardRandom> _graveyardRandom;
         private readonly RefRW<ZombieSpawnPoints> _zombieSpawnPoints;
         private readonly RefRW<ZombieSpawnTimer> _zombieSpawnTimer;
-        
+
         public int NumberTombstonesToSpawn => _graveyardProperties.ValueRO.NumberTombstonesToSpawn;
         public Entity TombstonePrefab => _graveyardProperties.ValueRO.TombstonePrefab;
-        
+
         public bool ZombieSpawnPointInitialized()
         {
             return _zombieSpawnPoints.ValueRO.Value.IsCreated && ZombieSpawnPointCount > 0;
@@ -49,18 +49,22 @@ namespace ComponentsAndTags
 
             return randomPosition;
         }
-        
+
         private float3 MinCorner => Transform.Position - HalfDimensions;
         private float3 MaxCorner => Transform.Position + HalfDimensions;
+
         private float3 HalfDimensions => new()
         {
-            x = _graveyardProperties.ValueRO.FieldDemensions.x * 0.5f,
+            x = _graveyardProperties.ValueRO.FieldDimensions.x * 0.5f,
             y = 0f,
-            z = _graveyardProperties.ValueRO.FieldDemensions.y * 0.5f
+            z = _graveyardProperties.ValueRO.FieldDimensions.y * 0.5f
         };
+
         private const float BRAIN_SAFETY_RADIUS_SQ = 100;
 
-        private quaternion GetRandomRotation() => quaternion.RotateY(_graveyardRandom.ValueRW.Value.NextFloat(-0.25f, 0.25f));
+        private quaternion GetRandomRotation() =>
+            quaternion.RotateY(_graveyardRandom.ValueRW.Value.NextFloat(-0.25f, 0.25f));
+
         private float GetRandomScale(float min) => _graveyardRandom.ValueRW.Value.NextFloat(min, 1f);
 
         public float2 GetRandomOffset()
@@ -86,7 +90,7 @@ namespace ComponentsAndTags
             return new LocalTransform
             {
                 Position = position,
-                Rotation = quaternion.RotateY(MathHelpers.GetHeading( Transform.Position,position)),
+                Rotation = quaternion.RotateY(MathHelpers.GetHeading(position, Transform.Position)),
                 Scale = 1f
             };
         }

@@ -1,11 +1,12 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AuthoringAndMono
 {
     public class GraveyardMono : MonoBehaviour 
     {
-        public float2 FieldDemensions;
+        [FormerlySerializedAs("FieldDemensions")] public float2 FieldDimensions;
         public int NumberTombstonesToSpawn;
         public GameObject TombstonePrefab;
         public uint RandomSeed;

@@ -22,10 +22,12 @@ namespace Systems
         public void OnUpdate(ref SystemState state)
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
 
             new ZombieRiseJob
             {
-                DeltaTime = deltaTime
+                DeltaTime = deltaTime,
+                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
             }.ScheduleParallel();
         }
     }
@@ -34,14 +36,17 @@ namespace Systems
     public partial struct ZombieRiseJob : IJobEntity
     {
         public float DeltaTime;
+        public EntityCommandBuffer.ParallelWriter ECB;
 
         [BurstCompile]
-        private void Execute(ZombieRiseAspect zombieRiseAspect)
+        private void Execute(ZombieRiseAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
-            zombieRiseAspect.Rise(DeltaTime);
-            if (!zombieRiseAspect.IsAboveGround) return;
+            zombie.Rise(DeltaTime);
+            if (!zombie.IsAboveGround) return;
 
-            zombieRiseAspect.SetAtGroundLevel();
+            zombie.SetAtGroundLevel();
+            ECB.RemoveComponent<ZombieRiseRate>(sortKey, zombie.Entity);
+            ECB.SetComponentEnabled<ZombieWalkProperties>(sortKey, zombie.Entity, true);
         }
     }
 }

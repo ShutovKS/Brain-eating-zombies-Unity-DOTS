@@ -1,4 +1,5 @@
 using ComponentsAndTags;
+using Unit;
 using Unity.Burst;
 using Unity.Entities;
 
@@ -39,18 +40,20 @@ namespace Systems
         public EntityCommandBuffer ECB;
 
         [BurstCompile]
-        private void Execute(GraveyardAspect graveyardAspect)
+        private void Execute(GraveyardAspect graveyard)
         {
-            graveyardAspect.ZombieSpawnTimer -= DeltaTime;
+            graveyard.ZombieSpawnTimer -= DeltaTime;
+            if(!graveyard.TimeToSpawnZombie) return;
+            if(!graveyard.ZombieSpawnPointInitialized()) return;
             
-            if(!graveyardAspect.TimeToSpawnZombie) return;
-            if(!graveyardAspect.ZombieSpawnPointInitialized()) return;
+            graveyard.ZombieSpawnTimer = graveyard.ZombieSpawnRate;
+            var newZombie = ECB.Instantiate(graveyard.ZombiePrefab);
 
-            graveyardAspect.ZombieSpawnTimer = graveyardAspect.ZombieSpawnRate;
-            var newZombie = ECB.Instantiate(graveyardAspect.ZombiePrefab);
-
-            var newZombieTransform = graveyardAspect.GetZombieSpawnPoint();
+            var newZombieTransform = graveyard.GetZombieSpawnPoint();
             ECB.SetComponent(newZombie, newZombieTransform);
+            
+            var zombieHeading = MathHelpers.GetHeading(newZombieTransform.Position, graveyard.Position);
+            ECB.SetComponent(newZombie, new ZombieHeading{Value = zombieHeading});
         }
     }
 }
