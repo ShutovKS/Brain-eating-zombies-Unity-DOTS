@@ -31,5 +31,14 @@ namespace ComponentsAndTags
         public float Value;
     }
 
-    public struct NewZombieTag : IComponentData { }
+    public struct NewZombieTag : IComponentData
+    {
+    }
+
+    public struct ZombieEatProperties : IComponentData, IEnableableComponent
+    {
+        public float EatDamagePerSecond;
+        public float EatAmplitude;
+        public float EatFrequency;
+    }
 }

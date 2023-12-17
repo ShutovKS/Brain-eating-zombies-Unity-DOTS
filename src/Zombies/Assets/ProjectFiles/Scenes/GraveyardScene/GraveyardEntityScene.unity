@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a687d6e52a4313bcaf911582a78c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FieldDemensions:
-    x: 40
-    y: 40
+  FieldDimensions:
+    x: 30
+    y: 30
   NumberTombstonesToSpawn: 250
   TombstonePrefab: {fileID: 14975308294066400, guid: 40686a6c484c6574386f4e9f32d9d9d9,
     type: 3}
@@ -182,6 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1145903876}
+  - component: {fileID: 1145903879}
   - component: {fileID: 1145903878}
   - component: {fileID: 1145903877}
   m_Layer: 0
@@ -258,6 +259,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145903875}
   m_Mesh: {fileID: 4300000, guid: 8f8d8ca7e70ba044a9ec6100b4c014ad, type: 2}
+--- !u!114 &1145903879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145903875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f955fb0444d34b1494eb26738574d401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
