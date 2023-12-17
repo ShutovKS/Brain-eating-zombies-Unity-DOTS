@@ -28,7 +28,7 @@ namespace Systems
             {
                 DeltaTime = deltaTime,
                 ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged)
-            }.Run();
+            }.Schedule();
         }
     }
 
@@ -42,13 +42,15 @@ namespace Systems
         private void Execute(GraveyardAspect graveyardAspect)
         {
             graveyardAspect.ZombieSpawnTimer -= DeltaTime;
-            if (graveyardAspect.TimerToSpawnZombie == false)
-            {
-                return;
-            }
+            
+            if(!graveyardAspect.TimeToSpawnZombie) return;
+            if(!graveyardAspect.ZombieSpawnPointInitialized()) return;
 
             graveyardAspect.ZombieSpawnTimer = graveyardAspect.ZombieSpawnRate;
             var newZombie = ECB.Instantiate(graveyardAspect.ZombiePrefab);
+
+            var newZombieTransform = graveyardAspect.GetZombieSpawnPoint();
+            ECB.SetComponent(newZombie, newZombieTransform);
         }
     }
 }
