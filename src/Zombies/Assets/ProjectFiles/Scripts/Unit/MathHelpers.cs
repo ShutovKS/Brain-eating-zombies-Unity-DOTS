@@ -6,9 +6,9 @@ namespace Unit
     {
         public static float GetHeading(float3 objectPosition, float3 targetPosition)
         {
-            var x = targetPosition.x - objectPosition.x;
-            var y = targetPosition.z - objectPosition.z;
-            return math.atan2(y, x) + math.PI;
+            var x = objectPosition.x - targetPosition.x;
+            var y = objectPosition.z - targetPosition.z;
+            return math.atan2(x, y) + math.PI;
         }
     }
 }
