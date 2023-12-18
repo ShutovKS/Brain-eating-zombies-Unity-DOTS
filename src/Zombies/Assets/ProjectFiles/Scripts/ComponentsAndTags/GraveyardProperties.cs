@@ -11,9 +11,4 @@ namespace ComponentsAndTags
         public Entity ZombiePrefab;
         public float ZombieSpawnRate;
     }
-    
-    public struct ZombieSpawnTimer : IComponentData
-    {
-        public float Value;
-    }
 }
