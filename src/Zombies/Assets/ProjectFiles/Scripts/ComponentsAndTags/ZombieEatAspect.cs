@@ -30,11 +30,15 @@ namespace ComponentsAndTags
             set => _zombieTimer.ValueRW.Value = value;
         }
 
-        public void Eat(float deltaTime)
+        public void Eat(float deltaTime, EntityCommandBuffer.ParallelWriter ecb, int sortKey, Entity brainEntity)
         {
             ZombieTimer += deltaTime;
             var eatAngle = EatAmplitude * math.sin(EatFrequency * ZombieTimer);
             _transform.ValueRW.Rotation = quaternion.Euler(eatAngle, Heading, 0);
+            
+            var eatDamage = EatDamagePerSecond * deltaTime;
+            var curBrainDamage = new BrainDamageBufferElement(value: eatDamage);
+            ecb.AppendToBuffer(sortKey, brainEntity, curBrainDamage);
         }
     }
 }

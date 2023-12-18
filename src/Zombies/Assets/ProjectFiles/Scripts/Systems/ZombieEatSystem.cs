@@ -21,10 +21,14 @@ namespace Systems
         public void OnUpdate(ref SystemState state)
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+            var brainEntity = SystemAPI.GetSingletonEntity<BrainTag>();
             
             new ZombieEatJob
             {
-                DeltaTime = deltaTime
+                DeltaTime = deltaTime,
+                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+                BrainEntity = brainEntity
             }.ScheduleParallel();
         }
     }
@@ -33,11 +37,13 @@ namespace Systems
     public partial struct ZombieEatJob : IJobEntity
     {
         public float DeltaTime;
+        public EntityCommandBuffer.ParallelWriter ECB;
+        public Entity BrainEntity;
 
         [BurstCompile]
         private void Execute(ZombieEatAspect zombieEatAspect, [EntityIndexInQuery] int sortKey)
         {
-            zombieEatAspect.Eat(DeltaTime);
+            zombieEatAspect.Eat(DeltaTime, ECB, sortKey, BrainEntity);
         }
     }
 }
