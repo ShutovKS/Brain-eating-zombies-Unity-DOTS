@@ -476,10 +476,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RiseRate: 0.5
-  WalkSpeed: 0.5
+  WalkSpeed: 0.25
   WalkAmplitude: 0.2
   WalkFrequency: 1
-  EatDamagePerSecond: 1
+  EatDamagePerSecond: 0.5
   EatAmplitude: 0.2
   EatFrequency: 10
 --- !u!1 &9044115827234658676

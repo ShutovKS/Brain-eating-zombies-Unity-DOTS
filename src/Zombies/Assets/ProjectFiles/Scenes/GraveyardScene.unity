@@ -896,9 +896,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85ca43a9e7ea4732834d064358da8a1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 038190de18ae4d4981e726cc7c0ca5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startRadius: 20
+  _endRadius: 5
+  _startHeight: 2
+  _endHeight: 10
+  _speed: 0.1
 --- !u!43 &406956993
 Mesh:
   m_ObjectHideFlags: 0
