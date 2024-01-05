@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace ComponentsAndTags
@@ -19,6 +20,10 @@ namespace ComponentsAndTags
             }
 
             _brainDamageBuffer.Clear();
+            
+            var ltw = _transform.ValueRO;
+            ltw.Scale = _brainHealth.ValueRO.Value / _brainHealth.ValueRO.Max;
+            _transform.ValueRW = ltw;
         }
     }
 }

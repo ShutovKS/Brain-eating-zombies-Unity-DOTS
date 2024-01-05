@@ -40,5 +40,10 @@ namespace ComponentsAndTags
             var curBrainDamage = new BrainDamageBufferElement(value: eatDamage);
             ecb.AppendToBuffer(sortKey, brainEntity, curBrainDamage);
         }
+        
+        public bool IsInEatingRange(float3 brainPosition, float brainRadiusSq)
+        {
+            return math.distancesq(brainPosition, _transform.ValueRO.Position) <= brainRadiusSq - 1;
+        }
     }
 }

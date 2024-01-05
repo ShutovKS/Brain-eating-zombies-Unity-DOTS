@@ -1,6 +1,8 @@
 using ComponentsAndTags;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
 
 namespace Systems
 {
@@ -10,6 +12,7 @@ namespace Systems
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<BrainTag>();
         }
 
         [BurstCompile]
@@ -23,12 +26,15 @@ namespace Systems
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             var brainEntity = SystemAPI.GetSingletonEntity<BrainTag>();
+            var brainScale = SystemAPI.GetComponent<LocalTransform>(brainEntity).Scale;
+            var brainRadius = brainScale * 5f + 1f;
             
             new ZombieEatJob
             {
                 DeltaTime = deltaTime,
                 ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-                BrainEntity = brainEntity
+                BrainEntity = brainEntity,
+                BrainRadiusSquared = brainRadius * brainRadius
             }.ScheduleParallel();
         }
     }
@@ -39,11 +45,20 @@ namespace Systems
         public float DeltaTime;
         public EntityCommandBuffer.ParallelWriter ECB;
         public Entity BrainEntity;
+        public float BrainRadiusSquared;
 
         [BurstCompile]
         private void Execute(ZombieEatAspect zombieEatAspect, [EntityIndexInQuery] int sortKey)
         {
-            zombieEatAspect.Eat(DeltaTime, ECB, sortKey, BrainEntity);
+            if (zombieEatAspect.IsInEatingRange(float3.zero, BrainRadiusSquared))
+            {
+                zombieEatAspect.Eat(DeltaTime, ECB, sortKey, BrainEntity);
+            }
+            else
+            {
+                ECB.SetComponentEnabled<ZombieEatProperties>(sortKey, zombieEatAspect.Entity, false);
+                ECB.SetComponentEnabled<ZombieWalkProperties>(sortKey, zombieEatAspect.Entity, true);
+            }
         }
     }
 }

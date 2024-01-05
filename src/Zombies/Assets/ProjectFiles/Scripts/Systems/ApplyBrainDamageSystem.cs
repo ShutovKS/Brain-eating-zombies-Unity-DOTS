@@ -21,6 +21,8 @@ namespace Systems
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
+            state.Dependency.Complete();
+            
             foreach (var brainAspect in SystemAPI.Query<BrainAspect>())
             {
                 brainAspect.DamageBrain();
